@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simon — Fintech Prodigy</title>
+  <meta name="description" content="Calm, confident, exclusive fintech landing page for a prodigy entrepreneur offering bespoke trading automation and financial product engineering." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================
+       DESIGN TOKENS (grayscale only for now)
+    =========================================== */
+    :root {
+      --bg: #000;          /* page background */
+      --fg: #fff;          /* primary text */
+      --muted: #cfcfcf;    /* subdued text */
+      --mid: #1b1b1b;      /* panels / windows */
+      --line: #2a2a2a;     /* separators */
+
+      --title-font: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      --text-font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+
+      /* spacing scale */
+      --s-1: 4px;  --s-2: 8px;  --s-3: 12px;  --s-4: 16px;  --s-5: 24px;
+      --s-6: 32px; --s-7: 40px; --s-8: 56px;  --s-9: 72px;  --s-10: 96px;
+
+      /* (reserved) accent color — do not use yet */
+      --accent: #7aa2ff; /* hidden for later */
+    }
+
+    /* Base reset + defaults */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--text-font);
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1200px, 92%); margin-inline: auto; }
+
+    /* Type */
+    .eyebrow { letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-size: .78rem; }
+    h1, h2, h3 { font-family: var(--title-font); font-weight: 700; margin: 0 0 var(--s-4); }
+    h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; }
+    h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); line-height: 1.1; }
+    h3 { font-size: clamp(1.1rem, 2.8vw, 1.4rem); letter-spacing: .02em; }
+    p { color: #e6e6e6; margin: 0 0 var(--s-4); line-height: 1.6; }
+    .muted { color: var(--muted); }
+
+    /* Common UI */
+    .window { background: var(--mid); border: 1px solid var(--line); border-radius: 16px; }
+    .divider { height: 1px; background: var(--line); margin: var(--s-7) 0; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px; border: 1px solid var(--line); background: #0a0a0a; color: var(--fg); font-weight: 600; }
+    .btn:hover { background: #111; }
+
+    header.site {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(6px);
+      background: color-mix(in srgb, #000 80%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav a { color: var(--muted); font-weight: 600; }
+    .nav a:hover { color: var(--fg); }
+    .nav .brand { color: var(--fg); font-family: var(--title-font); letter-spacing: .04em; }
+
+    .hero { padding: var(--s-9) 0 var(--s-8); }
+    .hero .lede { font-size: clamp(1rem, 2.2vw, 1.25rem); color: var(--muted); }
+    .hero .cta { margin-top: var(--s-5); display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .grid { display: grid; gap: var(--s-5); }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+    .stat { text-align: center; padding: var(--s-6); border-radius: 12px; background: #0d0d0d; border: 1px solid var(--line); }
+    .stat .num { font-family: var(--title-font); font-size: clamp(1.6rem, 4vw, 2.4rem); }
+    .stat .label { color: var(--muted); font-size: .9rem; }
+
+    .list { display: grid; gap: var(--s-4); }
+    .list li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; color: #eaeaea; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #a3a3a3; margin-top: 7px; }
+
+    form.contact { display: grid; gap: var(--s-4); }
+    input, textarea { width: 100%; padding: 12px 14px; border-radius: 12px; background: #0b0b0b; border: 1px solid var(--line); color: var(--fg); font: inherit; }
+    label { font-size: .9rem; color: var(--muted); }
+    .note { font-size: .85rem; color: var(--muted); }
+
+    footer { color: var(--muted); padding: var(--s-7) 0 var(--s-9); }
+
+    /* ==========================================
+       RESPONSIVE POLICY
+       PHONE styles: strictly < 600px
+    =========================================== */
+    @media (max-width: 599px) {
+      .nav .links { display: none; }
+      .hero .grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ==========================================
+       ≥ 600px (tablet / desktop)
+    =========================================== */
+    @media (min-width: 600px) {
+      .nav .links { display: flex; gap: 20px; }
+      .hero .grid { grid-template-columns: 1.2fr .8fr; align-items: end; }
+      .two { grid-template-columns: 1fr 1fr; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <!-- ================= HEADER ================= -->
+  <header class="site">
+    <div class="container nav">
+      <div class="brand">SIMON</div>
+      <nav class="links" aria-label="Primary">
+        <a href="#about">Meet Simon</a>
+        <a href="#stats">Numbers</a>
+        <a href="#capabilities">What I Do</a>
+        <a href="#value">Why Me</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="container grid hero grid">
+      <div>
+        <span class="eyebrow">Fintech Engineer · 25</span>
+        <h1>Custom trading automation & financial products — built quietly, shipped precisely.</h1>
+        <p class="lede">I collaborate with serious traders and funds to engineer tools that compound edge. If you have a concept, I make it real. If you have capital, I may grow it — if you convince me it’s worth my time.</p>
+        <div class="cta">
+          <a class="btn" href="#contact">Get in touch</a>
+          <a class="btn" href="#capabilities" aria-label="Jump to capabilities">See capabilities</a>
+        </div>
+      </div>
+      <div>
+        <div class="window" style="padding: var(--s-6);">
+          <p class="muted">Behind the curtain:</p>
+          <ul class="list" style="margin-top: var(--s-3);">
+            <li><span class="dot"></span><span>Low-latency execution scaffolds</span></li>
+            <li><span class="dot"></span><span>Risk surfaces & circuit-breakers</span></li>
+            <li><span class="dot"></span><span>Strategy research pipelines</span></li>
+            <li><span class="dot"></span><span>Backtesting to production handoff</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider container"></div>
+
+  <!-- ============== MEET SIMON ================= -->
+  <section id="about" class="container" style="padding: var(--s-8) 0;">
+    <div class="grid two">
+      <div class="window" style="padding: var(--s-6);">
+        <h2>Meet Simon</h2>
+        <p>Computer Science graduate turned solo fintech builder. I design and deploy bespoke systems for traders who prefer results over noise. Calm, precise, and private by default.</p>
+        <p class="muted">Not a consultancy. Not an agency. One mind, end‑to‑end.</p>
+      </div>
+      <div class="window" style="padding: var(--s-6);">
+        <h3>Beliefs</h3>
+        <ul class="list">
+          <li><span class="dot"></span><span>Edge compounds when friction disappears.</span></li>
+          <li><span class="dot"></span><span>Automation beats discretion — when designed by someone who trades.</span></li>
+          <li><span class="dot"></span><span>Exclusivity protects alpha.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== NUMBERS ================= -->
+  <section id="stats" class="container" style="padding: var(--s-8) 0;">
+    <span class="eyebrow">A few signals</span>
+    <h2>Quiet results, public enough.</h2>
+    <div class="stats" style="margin-top: var(--s-5);">
+      <div class="stat">
+        <div class="num">12+</div>
+        <div class="label">live automations</div>
+      </div>
+      <div class="stat">
+        <div class="num">7</div>
+        <div class="label">markets integrated</div>
+      </div>
+      <div class="stat">
+        <div class="num">ms</div>
+        <div class="label">latency targets</div>
+      </div>
+    </div>
+    <p class="note" style="margin-top: var(--s-3);">Details on request, under NDA.</p>
+  </section>
+
+  <div class="divider container"></div>
+
+  <!-- ============== CAPABILITIES ================= -->
+  <section id="capabilities" class="container" style="padding: var(--s-8) 0;">
+    <span class="eyebrow">What I can do</span>
+    <h2>From idea to live execution.</h2>
+
+    <div class="grid two" style="margin-top: var(--s-5);">
+      <div class="window" style="padding: var(--s-6);">
+        <h3>For traders with ideas</h3>
+        <ul class="list">
+          <li><span class="dot"></span><span>Translate your strategy into robust, testable code.</span></li>
+          <li><span class="dot"></span><span>Design research pipelines and evaluation metrics.</span></li>
+          <li><span class="dot"></span><span>Backtest realistically; avoid look‑ahead and leakage.</span></li>
+          <li><span class="dot"></span><span>Automate execution with risk controls and monitoring.</span></li>
+        </ul>
+      </div>
+      <div class="window" style="padding: var(--s-6);">
+        <h3>For capital allocators</h3>
+        <ul class="list">
+          <li><span class="dot"></span><span>Deploy vetted systems to grow capital under clear mandates.</span></li>
+          <li><span class="dot"></span><span>Design portfolio overlays and hedging automation.</span></li>
+          <li><span class="dot"></span><span>Integrate with brokers, exchanges, and data vendors.</span></li>
+          <li><span class="dot"></span><span>Operate discreetly; performance over publicity.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider container"></div>
+
+  <!-- ============== UNIQUE VALUE ================= -->
+  <section id="value" class="container" style="padding: var(--s-8) 0;">
+    <span class="eyebrow">Why I’m invaluable</span>
+    <h2>One throat to choke. One mind to ship.</h2>
+    <div class="grid two" style="margin-top: var(--s-5);">
+      <div class="window" style="padding: var(--s-6);">
+        <h3>Precision engineering</h3>
+        <p>From data ingestion to execution, everything is designed as a cohesive system. No integration roulette.</p>
+      </div>
+      <div class="window" style="padding: var(--s-6);">
+        <h3>Selective partnerships</h3>
+        <p>I don’t work with everyone. Convince me there’s substance and alignment; we proceed quickly and quietly.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider container"></div>
+
+  <!-- ============== CONTACT ================= -->
+  <section id="contact" class="container" style="padding: var(--s-8) 0;">
+    <span class="eyebrow">Start a conversation</span>
+    <h2>Hit me with your best idea.</h2>
+    <p class="muted">Short and direct. If it’s interesting, we’ll talk.</p>
+
+    <form class="contact" onsubmit="event.preventDefault(); document.getElementById('thanks').hidden=false; this.reset();">
+      <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" required minlength="2" placeholder="Your name" />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@firm.com" />
+      </div>
+      <div>
+        <label for="msg">Message</label>
+        <textarea id="msg" name="msg" rows="5" required minlength="12" placeholder="The idea, constraints, timeline."></textarea>
+      </div>
+      <button class="btn" type="submit">Request a private call</button>
+      <p id="thanks" class="note" hidden>Received. If it’s a fit, you’ll hear from me.</p>
+    </form>
+  </section>
+
+  <footer class="container">
+    <div class="divider"></div>
+    <p>© <span id="y"></span> Simon. Quiet craft for loud markets.</p>
+  </footer>
+
+  <script>
+    // minimal JS: dynamic year only
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

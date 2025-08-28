@@ -1,0 +1,19 @@
+:root {
+  --bg: #000000;
+  --fg: #111111;
+  --accent: #2563eb;
+}
+
+html {
+  filter: grayscale(100%);
+}
+
+/* ---------------- Phone: < 600px ---------------- */
+@media (max-width: 599px) {
+
+}
+
+/* ---------------- ≥ 600px (tablet/desktop) ---------------- */
+@media (min-width: 600px) {
+
+}
